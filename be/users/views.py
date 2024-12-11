@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
 
 def landing_view(request):
+    if request.user.is_authenticated:
+        return redirect('/users/userinfo')
+    
     return render(request, 'landing.html')
 
 def userinfo_view(request):
