@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %} {% load socialaccount %}
+
+{% block title %}소셜 로그인{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'styles/landing.css' %}">
+{% endblock %}
+    {% block content %}
+    <div class="layout">
+      <div class="login-box">
+        <img
+          class="logo"
+          src="{% static 'images/loginLogo.png' %}"
+          alt="로고"
+        />
+        <p class="logo-text">MSES SERVICE</p>
+        <p class="context">
+          소셜 로그인으로 로그인 및 회원가입을 하실 수 있습니다
+        </p>
+
+        <!-- 카카오 로그인 버튼 -->
+        <a href="{% provider_login_url 'kakao' %}" class="social-btn kakao">
+          <img src="{% static 'images/kakaoBtn.png' %}" alt="카카오 아이콘" />
+          <span>카카오 로그인</span>
+        </a>
+
+        <!-- 네이버 로그인 버튼 -->
+        <a href="{% provider_login_url 'naver' %}" class="social-btn naver">
+          <img src="{% static 'images/naverBtn.png' %}" alt="네이버 아이콘" />
+          <span>네이버 로그인</span>
+        </a>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

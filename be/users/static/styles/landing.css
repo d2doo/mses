@@ -1,0 +1,132 @@
+/* Layout 스타일 */
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 로그인 박스 스타일 */
+.login-box {
+  width: 90%;
+  background-color: #d6ccc2;
+  max-width: 480px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  margin: 70px;
+}
+
+@media (max-width: 768px) {
+  .login-box {
+    width: 320px;
+    background-color: transparent;
+    margin: 40px;
+  }
+}
+
+/* 로고 스타일 */
+.logo {
+  width: 180px;
+  height: auto;
+}
+
+.logo-text {
+  font-family: "GmarketSansBold";
+  font-size: 24px;
+  color: #5e503f;
+}
+
+/* 설명 텍스트 스타일 */
+.context {
+  margin: 30px 0 0 0;
+  padding: 20px 0 15px 0;
+  color: #5e503f;
+  line-height: 24px;
+  border-top: 1px solid #5e503f;
+  font-family: "PretendardLight";
+  font-size: 18px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .context {
+    font-size: 13px;
+  }
+}
+
+/* 소셜 로그인 버튼 스타일 */
+.social-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 360px;
+  border-radius: 12px;
+  font-family: "PretendardLight", sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.social-img {
+  max-width: 75%;
+  height: auto;
+}
+
+/* 카카오 로그인 버튼 스타일 */
+
+.social-btn.kakao {
+  background-color: #fee500; /* 네이버 녹색 배경 */
+  color: white;
+  padding: 15px 0;
+  border-radius: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 360px;
+  margin-top: 20px;
+}
+
+.social-btn.kakao img {
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+}
+
+.social-btn.kakao span {
+  color: #000000;
+  opacity: 85%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* 네이버 로그인 버튼 스타일 */
+
+.social-btn.naver {
+  background-color: #03c75a;
+  color: white;
+  padding: 15px 0;
+  border-radius: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 360px;
+  margin-top: 20px;
+}
+
+.social-btn.naver img {
+  width: 38px;
+  height: 38px;
+  margin-right: 15px;
+}
+
+.social-btn.naver span {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
