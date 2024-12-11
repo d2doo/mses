@@ -6,39 +6,46 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'styles/userinfo.css' %}">
 {% endblock %}
-  {% block content %}
-  <div class="layout">
-    <div class="welcome">
-      <img src="{% static 'images/loginLogo.png' %}" alt="로고">
-      <p>MSES SERVICE에 오신 걸 환영합니다</p>      
-      <img src="{% static 'images/loginLogo.png' %}" alt="로고">
+
+{% block content %}
+<div class="layout">
+  <div class="welcome">
+    <img src="{% static 'images/loginLogo.png' %}" alt="로고">
+    <p>MSES SERVICE에 오신 걸 환영합니다</p>      
+    <img src="{% static 'images/loginLogo.png' %}" alt="로고">
+  </div>
+  <div class="context">
+    <h1>내 정보</h1>
+    <div>
+      <span>이름</span>
+      <p>
+       {{ user.username }}
+      </p>
     </div>
-    <div class="context">
-      <h1>내 정보</h1>
-      <div>
-        <span>이름</span>
-        <p>
-         {{ user.username }}
-        </p>
-      </div>
-      <div>
-        <span>이메일</span>
-        <p>
-         {{ user.email }}
-        </p>
-      </div>
-      <div>
-        <span>추가정보</span>
-        <ul>
-          <li>닉네임: {{ extra_data.response.nickname }}</li>
-          <li>
-            프로필 이미지:
-            <img src="{{ extra_data.response.profile_image }}" alt="프로필" />
-          </li>
-        </ul>
-      </div>
+    <div>
+      <span>이메일</span>
+      <p>
+       {{ user.email }}
+      </p>
+    </div>
+    <div>
+      <span>추가정보</span>
+      {% if extra_data.response.nickname or extra_data.response.profile_image %}
+      <ul>
+        {% if extra_data.response.nickname %}
+        <li>닉네임: {{ extra_data.response.nickname }}</li>
+        {% endif %}
+        {% if extra_data.response.profile_image %}
+        <li>
+          프로필 이미지:
+          <img src="{{ extra_data.response.profile_image }}" alt="프로필" />
+        </li>
+        {% endif %}
+      </ul>
+      {% else %}
+      <p>추가 정보가 없습니다</p>
+      {% endif %}
     </div>
   </div>
-  {% endblock %}
-  </body>
-</html>
+</div>
+{% endblock %}
