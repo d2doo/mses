@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "PretendardSemiBold";
+  src: url("../fonts/Pretendard-SemiBold.woff") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PretendardLight";
+  src: url("../fonts/Pretendard-Light.woff") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GmarketSansBold";
+  src: url("../fonts/GmarketSansTTFBold.woff") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* 기본 폰트 및 배경 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "PretendardLight";
+  background-color: #f5ebe0;
+  color: #000000;
+}
+
+/* 제목 스타일 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "GmarketSansBold";
+  color: #5e503f;
+}
+
+/* 기본 링크 스타일 */
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  color: #555;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+span {
+  font-family: "PretendardSemiBold";
+}
