@@ -11,40 +11,68 @@
 <div class="layout">
   <div class="welcome">
     <img src="{% static 'images/loginLogo.png' %}" alt="로고">
-    <p>MSES SERVICE에 오신 걸 환영합니다</p>      
-    <img src="{% static 'images/loginLogo.png' %}" alt="로고">
+    <p>MSES SERVICE에 오신 걸 환영합니다</p>
   </div>
   <div class="context">
     <h1>내 정보</h1>
-    <div>
-      <span>이름</span>
-      <p>
-       {{ user.username }}
-      </p>
-    </div>
-    <div>
-      <span>이메일</span>
-      <p>
-       {{ user.email }}
-      </p>
-    </div>
-    <div>
-      <span>추가정보</span>
-      {% if extra_data.response.nickname or extra_data.response.profile_image %}
-      <ul>
-        {% if extra_data.response.nickname %}
-        <li>닉네임: {{ extra_data.response.nickname }}</li>
+
+    <!-- 프로필 이미지 -->
+    <div class="profile-image">
+      {% with user.socialaccount_set.first as account %}
+        {% if account.provider == "kakao" %}
+          <img src="{{ account.extra_data.kakao_account.profile.profile_image_url|default:'images/userIcon.png' }}" alt="프로필 이미지" class="round">
+        {% elif account.provider == "naver" %}
+          <img src="{{ account.extra_data.profile_image|default:'images/userIcon.png' }}" alt="프로필 이미지" class="round">
+        {% else %}
+          <img src="{% static 'images/userIcon.png' %}" alt="기본 프로필 이미지" class="round">
         {% endif %}
-        {% if extra_data.response.profile_image %}
-        <li>
-          프로필 이미지:
-          <img src="{{ extra_data.response.profile_image }}" alt="프로필" />
-        </li>
+      {% endwith %}
+    </div>
+
+    <!-- 사용자 정보 -->
+    <div class="info">
+      <div>
+        <span>이름</span>
+        <p>
+          {% with user.socialaccount_set.first as account %}
+            {% if account.provider == "kakao" %}
+              {{ account.extra_data.kakao_account.profile.nickname|default:"닉네임 없음" }}
+            {% elif account.provider == "naver" %}
+              {{ account.extra_data.name|default:"이름 없음" }}
+            {% else %}
+              {{ user.username }}
+            {% endif %}
+          {% endwith %}
+        </p>
+      </div>
+      <div>
+        <span>이메일</span>
+        <p>{{ user.email|default:"이메일 없음" }}</p>
+      </div>
+      {% with user.socialaccount_set.first as account %}
+        {% if account.provider == "kakao" and account.extra_data.properties.nickname %}
+          <div>
+            <span>별명</span>
+            <p>{{ account.extra_data.properties.nickname }}</p>
+          </div>
+        {% elif account.provider == "naver" and account.extra_data.nickname %}
+          <div>
+            <span>별명</span>
+            <p>{{ account.extra_data.nickname }}</p>
+          </div>
         {% endif %}
-      </ul>
-      {% else %}
-      <p>추가 정보가 없습니다</p>
-      {% endif %}
+        {% if account.provider == "kakao" and account.extra_data.kakao_account.birthday %}
+          <div>
+            <span>생일</span>
+            <p>{{ account.extra_data.kakao_account.birthday }}</p>
+          </div>
+        {% elif account.provider == "naver" and account.extra_data.birthday %}
+          <div>
+            <span>생일</span>
+            <p>{{ account.extra_data.birthday }}</p>
+          </div>
+        {% endif %}
+      {% endwith %}
     </div>
   </div>
 </div>

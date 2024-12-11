@@ -6,7 +6,6 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print("BASE_DIR:", BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +28,8 @@ NAVER_REDIRECT_URI = os.getenv("NAVER_REDIRECT_URI")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+]
 
 
 # Application definition
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://ec2-3-25-85-204.ap-southeast-2.compute.amazonaws.com"
 ]
 
 CORS_ALLOW_METHODS = [
@@ -112,6 +113,22 @@ TEMPLATES = [
 SITE_ID = 1
 
 # 설정
+SOCIALACCOUNT_PROVIDERS = {
+    "kakao": {
+        "APP": {
+            "client_id": os.getenv("KAKAO_CLIENT_ID"),
+            "secret": os.getenv("KAKAO_CLIENT_SECRET"),
+            "key": ""
+        }
+    },
+    "naver": {
+        "APP": {
+            "client_id": os.getenv("NAVER_CLIENT_ID"),
+            "secret": os.getenv("NAVER_CLIENT_SECRET"),
+            "key": ""
+        }
+    }
+}
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 LOGIN_REDIRECT_URL = '/users/userinfo' # 로그인 성공시
@@ -121,6 +138,7 @@ ACCOUNT_SIGNUP_REDIRECT_URL = LOGIN_REDIRECT_URL # 회원가입 후 로그인으
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = "none" # 소셜로그인 이메일 인증 비활성화
 ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = False
 SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter' # 사용자 정의 adapter
 SOCIALACCOUNT_STORE_TOKENS = True
 
