@@ -108,10 +108,15 @@ SITE_ID = 1
 
 # 설정
 SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 LOGIN_REDIRECT_URL = '/users/userinfo' # 로그인 성공시
 ACCOUNT_LOGOUT_REDIRECT_URL = '/users/landing' # 로그아웃 후
 ACCOUNT_SIGNUP_REDIRECT_URL = LOGIN_REDIRECT_URL # 회원가입 후 로그인으로 이동
-ACCOUNT_LOGOUT_ON_GET = True 
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = "none" # 소셜로그인 이메일 인증 비활성화
+ACCOUNT_EMAIL_REQUIRED = False
+SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter' # 사용자 정의 adapter
+SOCIALACCOUNT_STORE_TOKENS = True
 
 WSGI_APPLICATION = 'mses.wsgi.application'
 
