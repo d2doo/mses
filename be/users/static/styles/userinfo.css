@@ -46,6 +46,22 @@
   display: block;
   border-radius: 9999px;
 }
+
 .info {
   text-align: center;
+}
+
+.logout-btn {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.logout-btn:hover {
+  background-color: #c9302c;
 }

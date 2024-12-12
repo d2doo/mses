@@ -16,7 +16,6 @@
   <div class="context">
     <h1>내 정보</h1>
 
-    <!-- 프로필 이미지 -->
     <div class="profile-image">
       {% with user.socialaccount_set.first as account %}
         {% if account.provider == "kakao" %}
@@ -29,7 +28,6 @@
       {% endwith %}
     </div>
 
-    <!-- 사용자 정보 -->
     <div class="info">
       <div>
         <span>이름</span>
@@ -73,6 +71,10 @@
           </div>
         {% endif %}
       {% endwith %}
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">로그아웃</button>
+      </form>
     </div>
   </div>
 </div>
