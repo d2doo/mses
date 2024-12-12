@@ -47,18 +47,33 @@
         <span>이메일</span>
         <p>{{ user.email|default:"이메일 없음" }}</p>
       </div>
+      
+      <!-- 로컬 로그인 및 소셜 로그인 별명 처리 -->
       {% with user.socialaccount_set.first as account %}
-        {% if account.provider == "kakao" and account.extra_data.properties.nickname %}
-          <div>
-            <span>별명</span>
-            <p>{{ account.extra_data.properties.nickname }}</p>
-          </div>
-        {% elif account.provider == "naver" and account.extra_data.nickname %}
-          <div>
-            <span>별명</span>
-            <p>{{ account.extra_data.nickname }}</p>
-          </div>
+        {% if account %}
+          {% if account.provider == "kakao" and account.extra_data.properties.nickname %}
+            <div>
+              <span>별명</span>
+              <p>{{ account.extra_data.properties.nickname }}</p>
+            </div>
+          {% elif account.provider == "naver" and account.extra_data.nickname %}
+            <div>
+              <span>별명</span>
+              <p>{{ account.extra_data.nickname }}</p>
+            </div>
+          {% endif %}
+        {% else %}
+          {% if user.nickname %}
+            <div>
+              <span>별명</span>
+              <p>{{ user.nickname }}</p>
+            </div>
+          {% endif %}
         {% endif %}
+      {% endwith %}
+      
+      <!-- 생일 처리 -->
+      {% with user.socialaccount_set.first as account %}
         {% if account.provider == "kakao" and account.extra_data.kakao_account.birthday %}
           <div>
             <span>생일</span>
@@ -71,6 +86,8 @@
           </div>
         {% endif %}
       {% endwith %}
+      
+      <!-- 로그아웃 버튼 -->
       <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit" class="logout-btn">로그아웃</button>
