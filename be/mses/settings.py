@@ -4,16 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure--qq4-l4jc#c@genpb$t_!b&y!*2vl-qvr)7s$2@hpjf_x^s0wj'
 SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 # 카카오 설정
 KAKAO_CLIENT_ID = os.getenv("KAKAO_CLIENT_ID")
@@ -25,7 +18,23 @@ NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
 NAVER_REDIRECT_URI = os.getenv("NAVER_REDIRECT_URI")
 
-# SECURITY WARNING: don't run with debug turned on in production!
+SOCIALACCOUNT_PROVIDERS = {
+    "kakao": {
+        "APP": {
+            "client_id": os.getenv("KAKAO_CLIENT_ID"),
+            "secret": os.getenv("KAKAO_CLIENT_SECRET"),
+            "key": ""
+        }
+    },
+    "naver": {
+        "APP": {
+            "client_id": os.getenv("NAVER_CLIENT_ID"),
+            "secret": os.getenv("NAVER_CLIENT_SECRET"),
+            "key": ""
+        }
+    }
+}
+
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -48,12 +57,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.naver',
-    'users', # 앱
+    'users',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://ec2-3-25-85-204.ap-southeast-2.compute.amazonaws.com"
 ]
 
 CORS_ALLOW_METHODS = [
@@ -86,10 +94,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mses.urls'
 
-# 설정
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
@@ -109,45 +115,28 @@ TEMPLATES = [
     },
 ]
 
-# 설정
 SITE_ID = 1
 
-# 설정
-SOCIALACCOUNT_PROVIDERS = {
-    "kakao": {
-        "APP": {
-            "client_id": os.getenv("KAKAO_CLIENT_ID"),
-            "secret": os.getenv("KAKAO_CLIENT_SECRET"),
-            "key": ""
-        }
-    },
-    "naver": {
-        "APP": {
-            "client_id": os.getenv("NAVER_CLIENT_ID"),
-            "secret": os.getenv("NAVER_CLIENT_SECRET"),
-            "key": ""
-        }
-    }
-}
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
-LOGIN_REDIRECT_URL = '/users/userinfo' # 로그인 성공시
-ACCOUNT_SIGNUP_FORM_CLASS = None  # 추가 폼 사용하지 않도록 설정
-ACCOUNT_LOGOUT_REDIRECT_URL = '/users/landing' # 로그아웃 후
-ACCOUNT_SIGNUP_REDIRECT_URL = LOGIN_REDIRECT_URL # 회원가입 후 로그인으로 이동
+LOGIN_REDIRECT_URL = '/users/userinfo'
+ACCOUNT_SIGNUP_FORM_CLASS = None
+LOGOUT_REDIRECT_URL = '/users/landing/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/users/landing'
+ACCOUNT_SIGNUP_REDIRECT_URL = LOGIN_REDIRECT_URL
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_EMAIL_VERIFICATION = "none" # 소셜로그인 이메일 인증 비활성화
+ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_UNIQUE_EMAIL = False
-SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter' # 사용자 정의 adapter
+SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter'
 SOCIALACCOUNT_STORE_TOKENS = True
 
 WSGI_APPLICATION = 'mses.wsgi.application'
 
+AUTH_USER_MODEL = 'users.User'
+
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -157,17 +146,9 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
@@ -176,9 +157,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'UTC'
 
@@ -188,11 +167,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = 'static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
