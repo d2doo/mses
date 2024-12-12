@@ -1,19 +1,18 @@
 from abc import ABC, abstractmethod
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.account.models import EmailAddress
+from django.shortcuts import render
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
+
+# 소셜 로그인 처리용 추상 클래스
 class SocialLoginHandler(ABC):
-    """
-    소셜 로그인 데이터를 처리하는 추상 클래스
-    각 소셜 제공자는 이 클래스를 상속받아 커스터마이징함
-    """
     @abstractmethod
     def populate_user(self, user, extra_data):
         pass
 
-
 class KakaoLoginHandler(SocialLoginHandler):
-    """
-    카카오 데이터 처리
-    """
     def populate_user(self, user, extra_data):
         kakao_account = extra_data.get('kakao_account', {})
         profile = kakao_account.get('profile', {})
@@ -22,18 +21,12 @@ class KakaoLoginHandler(SocialLoginHandler):
 
 
 class NaverLoginHandler(SocialLoginHandler):
-    """
-    네이버 데이터 처리.
-    """
     def populate_user(self, user, extra_data):
         user.username = extra_data.get('name', '') or extra_data.get('nickname', '') or f"user_{extra_data.get('id', '')}"
         user.first_name = extra_data.get('name', '') or extra_data.get('nickname', '')
 
-
+# 플랫폼 별 핸들러
 class SocialLoginHandlerFactory:
-    """
-    플랫폼별 핸들러 생성(팩토리)
-    """
     HANDLERS = {
         'kakao': KakaoLoginHandler,
         'naver': NaverLoginHandler,
@@ -47,18 +40,25 @@ class SocialLoginHandlerFactory:
         return handler_class()
 
 
-# MySocialAccountAdapter 수정
-from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
     def populate_user(self, request, sociallogin, data):
         user = super().populate_user(request, sociallogin, data)
         extra_data = sociallogin.account.extra_data
         provider = sociallogin.account.provider
 
-        # 팩토리에서 적절한 핸들러 가져오기
         handler = SocialLoginHandlerFactory.get_handler(provider)
         handler.populate_user(user, extra_data)
-
-        user.last_name = ''  # 성이 없는 경우 빈 문자열로 설정
+        user.last_name = ''  # 초기화
         return user
+    
+    def pre_social_login(self, request, sociallogin):
+        if sociallogin.is_existing:
+            return
+
+        email = sociallogin.account.extra_data.get('email')
+        if email:
+            try:
+                existing_user = EmailAddress.objects.get(email=email).user
+                sociallogin.connect(request, existing_user)
+            except EmailAddress.DoesNotExist:
+                pass
