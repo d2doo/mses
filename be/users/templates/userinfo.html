@@ -48,7 +48,6 @@
         <p>{{ user.email|default:"이메일 없음" }}</p>
       </div>
       
-      <!-- 로컬 로그인 및 소셜 로그인 별명 처리 -->
       {% with user.socialaccount_set.first as account %}
         {% if account %}
           {% if account.provider == "kakao" and account.extra_data.properties.nickname %}
@@ -72,7 +71,6 @@
         {% endif %}
       {% endwith %}
       
-      <!-- 생일 처리 -->
       {% with user.socialaccount_set.first as account %}
         {% if account.provider == "kakao" and account.extra_data.kakao_account.birthday %}
           <div>
@@ -87,7 +85,6 @@
         {% endif %}
       {% endwith %}
       
-      <!-- 로그아웃 버튼 -->
       <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit" class="logout-btn">로그아웃</button>

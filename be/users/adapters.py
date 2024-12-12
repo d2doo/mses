@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# 소셜 로그인 처리용 추상 클래스
 class SocialLoginHandler(ABC):
     @abstractmethod
     def populate_user(self, user, extra_data):
@@ -25,7 +24,6 @@ class NaverLoginHandler(SocialLoginHandler):
         user.username = extra_data.get('name', '') or extra_data.get('nickname', '') or f"user_{extra_data.get('id', '')}"
         user.first_name = extra_data.get('name', '') or extra_data.get('nickname', '')
 
-# 플랫폼 별 핸들러
 class SocialLoginHandlerFactory:
     HANDLERS = {
         'kakao': KakaoLoginHandler,
@@ -48,7 +46,7 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
 
         handler = SocialLoginHandlerFactory.get_handler(provider)
         handler.populate_user(user, extra_data)
-        user.last_name = ''  # 초기화
+        user.last_name = ''
         return user
     
     def pre_social_login(self, request, sociallogin):

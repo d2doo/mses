@@ -43,6 +43,9 @@ def login_view(request):
 
 
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect('/users/userinfo/')
+    
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
