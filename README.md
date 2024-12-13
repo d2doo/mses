@@ -45,7 +45,7 @@ MSES SERVICE는 **일반 회원가입 및 로그인**과 **OAuth2.0 기반 소�
 
 ## 설치 및 실행 방법
 
-> Visual Studio Code(VSCode)의 터미널을 기준으로 작성하였습니다.
+> Visual Studio Code(VSCode)의 터미널(bash)을 기준으로 작성하였습니다.
 
 1. **레포지토리 클론:**
    ```bash
@@ -59,9 +59,15 @@ MSES SERVICE는 **일반 회원가입 및 로그인**과 **OAuth2.0 기반 소�
      python -m venv venv
      ```
    - **가상환경 활성화:**  
-     - **Windows:**  
+     - **Windows:**
        ```bash
        source venv\Scripts\activate
+       ```
+
+       혹은
+       
+       ```cmd
+       venv\Scripts\activate
        ```
    - **의존성 설치:**  
      ```bash
